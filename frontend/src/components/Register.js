@@ -132,15 +132,56 @@ function GenericForm({ title = 'Register', fields = [], onSubmit }) {
 
 // Example usage for registration
 export default function Register() {
+	
+	// API call function for user registration
+	const handleRegister = async (userData) => {
+		try {
+			// Show loading state (you can add a loading spinner here)
+			console.log('🚀 Registering user:', userData);
+			
+			// Make API call to backend
+			const response = await fetch('http://localhost:5000/api/auth/register', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+					email: userData.email,
+					password: userData.password,
+					name: userData.name || null
+				})
+			});
+			
+			// Parse response
+			const result = await response.json();
+			
+			if (result.success) {
+				// Success - account created
+				alert(`✅ Success: ${result.message}\nWelcome ${result.user.email}!`);
+				console.log('✅ User registered successfully:', result.user);
+			} else {
+				// Error from backend (validation errors, duplicate email, etc.)
+				alert(`❌ Error: ${result.message}`);
+				console.error('❌ Registration failed:', result.message);
+			}
+			
+		} catch (error) {
+			// Network or other errors
+			console.error('❌ Registration error:', error);
+			alert('❌ Error: Unable to connect to server. Please try again later.');
+		}
+	};
+	
 	return (
 		<GenericForm
 			title="Register"
 			fields={[
+				{ name: 'name', label: 'Full Name', type: 'text', required: false },
 				{ name: 'email', label: 'Email', type: 'email', required: true },
 				{ name: 'password', label: 'Password', type: 'password', required: true },
 				{ name: 'confirmPassword', label: 'Confirm Password', type: 'password', required: true },
 			]}
-			onSubmit={(values) => alert(JSON.stringify(values, null, 2))}
+			onSubmit={handleRegister}
 		/>
 	);
 }
