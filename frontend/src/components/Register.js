@@ -133,43 +133,21 @@ function GenericForm({ title = 'Register', fields = [], onSubmit }) {
 // Example usage for registration
 export default function Register() {
 	
-	// API call function for user registration
-	const handleRegister = async (userData) => {
-		try {
-			// Show loading state (you can add a loading spinner here)
-			console.log('🚀 Registering user:', userData);
-			
-			// Make API call to backend
-			const response = await fetch('http://localhost:5000/api/auth/register', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					email: userData.email,
-					password: userData.password,
-					name: userData.name || null
-				})
-			});
-			
-			// Parse response
-			const result = await response.json();
-			
-			if (result.success) {
-				// Success - account created
-				alert(`✅ Success: ${result.message}\nWelcome ${result.user.email}!`);
-				console.log('✅ User registered successfully:', result.user);
-			} else {
-				// Error from backend (validation errors, duplicate email, etc.)
-				alert(`❌ Error: ${result.message}`);
-				console.error('❌ Registration failed:', result.message);
-			}
-			
-		} catch (error) {
-			// Network or other errors
-			console.error('❌ Registration error:', error);
-			alert('❌ Error: Unable to connect to server. Please try again later.');
-		}
+	// Frontend-only registration handler (no backend API call)
+	const handleRegister = (userData) => {
+		// Log the user data for development purposes
+		console.log('🚀 Registration form submitted:', userData);
+		
+		// Show success message (frontend validation passed)
+		alert(`✅ Form Validation Successful!\n\nName: ${userData.name || 'Not provided'}\nEmail: ${userData.email}\nPassword: ${'*'.repeat(userData.password.length)} characters\n\n⚠️ Note: Backend API not connected yet.`);
+		
+		// You can also display the data in a more user-friendly way
+		console.log('📋 User Registration Data:', {
+			name: userData.name || 'Not provided',
+			email: userData.email,
+			passwordLength: userData.password.length,
+			timestamp: new Date().toISOString()
+		});
 	};
 	
 	return (
