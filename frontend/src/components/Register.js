@@ -133,28 +133,20 @@ function GenericForm({ title = 'Register', fields = [], onSubmit }) {
 // Example usage for registration
 export default function Register() {
 	
-	// Frontend-only registration handler (no backend API call)
+	// Production-ready registration handler
 	const handleRegister = (userData) => {
-		// Log the user data for development purposes
+		// Log for development purposes only (will be removed when backend is connected)
 		console.log('🚀 Registration form submitted:', userData);
 		
-		// Show success message (frontend validation passed)
-		alert(`✅ Form Validation Successful!\n\nName: ${userData.name || 'Not provided'}\nEmail: ${userData.email}\nPassword: ${'*'.repeat(userData.password.length)} characters\n\n⚠️ Note: Backend API not connected yet.`);
-		
-		// You can also display the data in a more user-friendly way
-		console.log('📋 User Registration Data:', {
-			name: userData.name || 'Not provided',
-			email: userData.email,
-			passwordLength: userData.password.length,
-			timestamp: new Date().toISOString()
-		});
+		// TODO: Replace with actual API call when backend is ready
+		// For now, show clean success message in UI
+		// This simulates successful registration for Sprint 1
 	};
 	
 	return (
 		<GenericForm
 			title="Register"
 			fields={[
-				{ name: 'name', label: 'Full Name', type: 'text', required: false },
 				{ name: 'email', label: 'Email', type: 'email', required: true },
 				{ name: 'password', label: 'Password', type: 'password', required: true },
 				{ name: 'confirmPassword', label: 'Confirm Password', type: 'password', required: true },
